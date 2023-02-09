@@ -8,6 +8,7 @@ import figlet from 'figlet';
 import { createSpinner } from 'nanospinner';
 
 let playerName: string;
+let score: number[] = [];
 
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 
@@ -27,4 +28,77 @@ async function welcome() {
   `);
 }
 
+async function handleAnswer(isCorrect: boolean) {
+  const spinner = createSpinner('Checking answer...').start();
+  await sleep();
+
+  if (isCorrect) {
+    spinner.success({ text: `Nice work ${playerName}. That's a legit answer` });
+  } else {
+    spinner.error({ text: `💀💀💀 Game over, you lose ${playerName}!` });
+    process.exit(1);
+  }
+}
+
+
+async function askName() {
+  const answers = await inquirer.prompt({
+    name: 'player_name',
+    type: 'input',
+    message: 'What is your name?',
+    default() {
+      return 'Player';
+    },
+  });
+
+  playerName = answers.player_name;
+}
+
+async function question1() {
+  const answers = await inquirer.prompt({
+    name: 'question_1',
+    type: 'list',
+    message: 'JavaScript was created in 10 days then released on\n',
+    choices: [
+      'May 23rd, 1995',
+      'Nov 24th, 1995',
+      'Dec 4th, 1995',
+      'Dec 17, 1996',
+    ],
+  });
+  
+  if(answers.question_1 === 'Dec 4th, 1995') {
+    score.push(10);
+  } else {
+    console.log("Incorrect answer");    
+  }
+  return handleAnswer(answers.question_1 === 'Dec 4th, 1995');
+}
+
+async function winner() {
+  console.log(`  
+  Your score is ${score} and you win     
+  
+  
+  ` );
+  // await sleep()
+  // console.clear();
+  figlet(`Congrats , ${playerName} !\n $ 1 , 0 0 0 , 0 0 0`, (err, data) => {
+    console.log(gradient.pastel.multiline(data) + '\n');
+
+    console.log(
+      chalk.green(
+        `Programming isn't about what you know; it's about making the command line look cool`
+      )
+    );
+    process.exit(0);
+  });
+}
+
+
+
+console.clear();
 await welcome();
+await askName();
+await question1()
+await winner()
