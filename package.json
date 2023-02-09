@@ -2,6 +2,7 @@
   "name": "project08_quiz_app",
   "version": "1.0.0",
   "description": "The app will show the students multiple choice questions and promt the user to reply. In the end it will show the students the result of the quiz.",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,7 +23,8 @@
     "chalk-animation": "^2.0.3",
     "figlet": "^1.5.2",
     "gradient-string": "^2.0.2",
-    "inquirer": "^9.1.4"
+    "inquirer": "^9.1.4",
+    "nanospinner": "^1.1.0"
   },
   "devDependencies": {
     "@types/chalk-animation": "^1.6.1",
